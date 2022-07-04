@@ -6,4 +6,4 @@ function monkeyTrouble(aSmile, bSmile){
      {
        return false;
      }
-   }
+    }
