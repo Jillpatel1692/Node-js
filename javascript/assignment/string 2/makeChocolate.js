@@ -6,20 +6,15 @@ makeChocolate(4, 1, 9) → 4
 makeChocolate(4, 1, 10) → -1
 makeChocolate(4, 1, 7) → 2 */
 function makeChocolate(small, big, goal){
-   rem = goal % 5;
-  if (small + (big*5) < goal){
-    return -1;
-  }
-  else if (rem <= small && goal - big*5 > 4)
-  {
-    return rem + 5;
-  }
-  else if (rem <= small)
-  {
-    return rem;
-  }
-  else
-  {
-    return -1;
-  }
+  if (small + big * 5 < goal) {
+      return -1;
+    }
+  
+    const bigsNeeded = Math.floor(goal / 5);
+  
+    const bigsUsed = Math.min(big, bigsNeeded);
+  
+    const smallsNeeded = goal - bigsUsed * 5;
+  
+    return smallsNeeded;
 }
