@@ -27,7 +27,7 @@ http.createServer(function (req, res) {
           throw err;}
         else{
           res.writeHead(200, {'Content-Type': 'text/html'});
-          res.write('File deleted');
+          res.write('File Deleted');
           return res.end();}
   });
   // fs.rename('mynewfile5.txt', 'notepad2.txt', function (err) {
