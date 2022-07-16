@@ -35,7 +35,7 @@ http.createServer(function (req, res) {
               throw err;}
             else{
               res.writeHead(200, {'Content-Type': 'text/html'});
-              res.write('File renamed');
+              res.write('File Renamed');
               return res.end();}
   });
   
