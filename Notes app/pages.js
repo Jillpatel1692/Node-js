@@ -1,83 +1,42 @@
-const fs = require('fs');
 const http = require('http');
+const fs = require('fs');
 const { title } = require('process');
 
-const newNote = function(title, body){
-    const notes = uploadNotes();
-    notes.push({title, body});
-    fs.writeFileSync(title,body);
-    fs.writeFileSync('notepad.json', JSON.stringify(notes));
-}
-
 http.createServer(function (req, res) {
-    fs.readFile('notepad.txt', function(err, data) {
-      res.writeHead(200, {'Content-Type': 'text/html'});
-      res.write(data);
-      return res.end();
-    });
+  // fs.open('notepad.txt', 'w', function (err, file) {
+  //   if (err) {
+  //         throw err;}
+  //       else{
+  //         res.writeHead(200, {'Content-Type': 'text/html'});
+  //         res.write('File created');
+  //         return res.end();}
+  // });
+  // fs.readFile('notepad.txt', function(err, data) {
+  //   if(err){
+  //     res.writeHead(200, {'Content-Type': 'text/html'});
+  //     res.write('Error reading file...');
+  //     return res.end();
+  //   }else{
+  //     res.writeHead(200, {'Content-Type': 'text/html'});
+  //      res.write(data);
+  //     return res.end();
+  //   }
+  // });
+  fs.unlink('notepad.txt', function (err) {
+    if (err) {
+          throw err;}
+        else{
+          res.writeHead(200, {'Content-Type': 'text/html'});
+          res.write('File deleted');
+          return res.end();}
+  });
+  // fs.rename('mynewfile5.txt', 'notepad2.txt', function (err) {
+  //   if (err) {
+  //             throw err;}
+  //           else{
+  //             res.writeHead(200, {'Content-Type': 'text/html'});
+  //             res.write('File renamed');
+  //             return res.end();}
+  // });
+  
 }).listen(8000);
-
-const editNote = function(title, new_text){
-    const notes = uploadNotes();
-    fs.appendFile(title, new_text, function (err) {
-        if (err) throw err;
-        console.log('Saved!');
-    });
-}
-
-const openNote = function(title,file){
-    const notes = uploadNotes();
-    fs.open(title, 'w', function (err,file) {
-        if (err) throw err;
-        console.log('Saved!');
-    });
-}
-
-const deleteNote = function(title){
-    const notes = uploadNotes();
-    const remaining = notes.filter(function(note){
-        return note.title !== title;
-    });
-    fs.unlink(title, function (err) {
-        if (err) throw err;
-        console.log('File deleted!');
-      });
-    fs.writeFileSync('notepad.json', JSON.stringify(remaining));
-}
-
-const renameNote = function(title, new_title){
-    const notes = uploadNotes();
-    fs.rename(title, new_title, function (err) {
-        if (err) throw err;
-        console.log('File Renamed!');
-    });
-}
-
-const allNotes = () => {
-    const notes = uploadNotes();
-    notes.forEach(note => console.log(note.title));
-}
-
-const findNote = title => {
-    const notes = uploadNotes();
-    const note = notes.find(note => note.title === title)
-    debugger;
-    if(note){
-        console.log('Title ->>>', note.title);
-        console.log('Body ->>>', note.body);
-    }else{
-        console.log('Note not found');
-    }
-}
-
-const uploadNotes = function(){
-    try{
-        const dataBuffer = fs.readFileSync('notepad.json');
-        const dataJSON = dataBuffer.toString();
-        return JSON.parse(dataJSON);
-    }catch(e){
-        return [];
-    }
-}
-
-module.exports = { newNote, deleteNote, renameNote, readNote, editNote, openNote, allNotes, findNote};
